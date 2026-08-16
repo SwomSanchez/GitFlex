@@ -97,15 +97,17 @@ def cmd_init():
 
     # Step 3: Tech Stack
     console.print("\n[bold bright_magenta]━━━ STEP 3 / 4: TECH MATRIX & CUSTOM ICONS ━━━━━━━━━━━━━[/bold bright_magenta]")
+    console.print("[dim]Popular: python, javascript, typescript, react, csharp, dotnet, nodejs, docker, git, go, rust[/dim]\n")
+    
     available_icons = list_local_icons()
     if available_icons:
-        console.print(f"[bold yellow]📁 Detected Local Icons in GitFlex/icons/:[/bold yellow] [dim cyan]{', '.join(available_icons)}[/dim cyan]")
+        console.print(f"[bold yellow]📁 Detected Local Icons in GitFlex/icons/:[/bold yellow] [dim cyan]{', '.join(available_icons)}[/dim cyan]\n")
         default_tech = ", ".join(available_icons[:8])
     else:
         default_tech = ""
 
     tech_input = Prompt.ask(
-        "[bold green]?[/bold green] [bold white]Tech Stack Chips[/bold white] [dim](Comma-separated or leave empty)[/dim]",
+        "[bold green]?[/bold green] [bold white]Tech Stack Chips[/bold white] [dim](Enter tech names comma-separated)[/dim]",
         default=default_tech
     ).strip()
     tech_items = [t.strip().lower() for t in tech_input.split(",") if t.strip()]
