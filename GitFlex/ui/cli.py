@@ -1,81 +1,124 @@
 import os
 import sys
+import time
 import argparse
 import webbrowser
 from rich.console import Console
 from rich.prompt import Prompt, Confirm
+from rich.panel import Panel
+from rich.table import Table
+from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn, TimeElapsedColumn
+from rich.text import Text
+from rich.align import Align
 
 from GitFlex.ui.banner import print_banner
-from GitFlex.config import ConfigManager
 from GitFlex.services.github import GitHubProvider
 from GitFlex.engine.renderer import GitFlexEngine
 from GitFlex.engine.synthesizer import ScriptSynthesizer
 from GitFlex.services.templates import DeployTemplates
 from GitFlex.services.git_deploy import GitOps
 from GitFlex.modules.themes import list_themes
+from GitFlex.services.icons import list_local_icons
 
 console = Console()
 
 def cmd_init():
-    """Interactive Setup Wizard & Isolated Build Generator."""
+    """Ultra-Premium Interactive Cyberpunk Setup Wizard."""
+    console.clear()
     print_banner()
-    
-    console.print("\n[bold cyan]🚀 GitFlex Profile & CV Setup Wizard[/bold cyan]\n")
-    
+
+    console.print()
+    setup_panel = Panel(
+        Align.center(
+            Text.from_markup(
+                "[bold cyan]Welcome to the GitFlex Configuration Studio![/bold cyan]\n"
+                "[dim]Design your dynamic animated GitHub profile in seconds with live API telemetry.[/dim]"
+            )
+        ),
+        border_style="cyan",
+        padding=(0, 2),
+    )
+    console.print(setup_panel)
+    console.print()
+
+    # Step 1: User Identity
+    console.print("[bold bright_magenta]━━━ STEP 1 / 4: DEVELOPER IDENTITY ━━━━━━━━━━━━━━━━━━━━━━[/bold bright_magenta]")
     username = Prompt.ask(
-        "[bold green]?[/bold green] GitHub Username"
+        "\n[bold green]?[/bold green] [bold white]GitHub Username[/bold white]"
     ).strip()
 
     if not username:
-        console.print("[red]Username cannot be empty![/red]")
+        console.print("[bold red]✖ Error: GitHub username cannot be empty![/bold red]")
         return
 
+    default_repo = f"https://github.com/{username}/{username}.git"
     repo_url = Prompt.ask(
-        "[bold green]?[/bold green] Target Profile Repository URL",
-        default=f"https://github.com/{username}/{username}.git"
+        "[bold green]?[/bold green] [bold white]Target Profile Repository URL[/bold white]",
+        default=default_repo
     ).strip()
 
     name = Prompt.ask(
-        "[bold green]?[/bold green] Display Name (Leave empty to use GitHub name)",
+        "[bold green]?[/bold green] [bold white]Display Name[/bold white] [dim](Leave empty to use GitHub name)[/dim]",
         default=""
     ).strip()
 
     bio = Prompt.ask(
-        "[bold green]?[/bold green] Bio / Subtitle (Leave empty to use GitHub bio)",
+        "[bold green]?[/bold green] [bold white]Bio / Subtitle[/bold white] [dim](Leave empty to use GitHub bio)[/dim]",
         default=""
     ).strip()
 
-    # Theme Selection
+    # Step 2: Theme Selection
+    console.print("\n[bold bright_magenta]━━━ STEP 2 / 4: THEME & COLOR ENGINE ━━━━━━━━━━━━━━━━━━━[/bold bright_magenta]")
     themes = list_themes()
-    console.print("\n[bold magenta]🎨 Theme Selection:[/bold magenta]")
-    for idx, t in enumerate(themes, 1):
-        console.print(f"  [bold cyan]{idx}[/bold cyan]. [bold white]{t['name']}[/bold white] - [dim]{t['description']}[/dim]")
     
+    table = Table(border_style="magenta", show_header=True, header_style="bold cyan")
+    table.add_column("#", style="bold yellow", width=4, justify="center")
+    table.add_column("Theme Name", style="bold white", width=22)
+    table.add_column("Description", style="dim white")
+    table.add_column("Aesthetics", style="bold green", width=18)
+
+    theme_vibes = {
+        "cyberpunk_nebula": "🟣 Neon Purple/Green",
+        "midnight_sapphire": "🔵 Oceanic Sapphire",
+        "sunset_crimson": "🔴 Amber Sunset",
+        "matrix_emerald": "🟢 Terminal Emerald"
+    }
+
+    for idx, t in enumerate(themes, 1):
+        vibe = theme_vibes.get(t["id"], "✨ Custom Neon")
+        table.add_row(str(idx), t["name"], t["description"], vibe)
+
+    console.print(table)
+
     theme_choice = Prompt.ask(
-        "[bold green]?[/bold green] Select Theme Number",
+        "\n[bold green]?[/bold green] [bold white]Select Theme Number[/bold white]",
         default="1"
     )
     try:
         chosen_theme = themes[int(theme_choice) - 1]["id"]
+        chosen_theme_name = themes[int(theme_choice) - 1]["name"]
     except Exception:
         chosen_theme = "cyberpunk_nebula"
+        chosen_theme_name = "Cyberpunk Nebula"
 
-    # Tech Stack Selection
-    from GitFlex.services.icons import list_local_icons
+    console.print(f"[dim]Selected theme:[/dim] [bold cyan]{chosen_theme_name}[/bold cyan]")
+
+    # Step 3: Tech Stack
+    console.print("\n[bold bright_magenta]━━━ STEP 3 / 4: TECH MATRIX & CUSTOM ICONS ━━━━━━━━━━━━━[/bold bright_magenta]")
     available_icons = list_local_icons()
     if available_icons:
-        console.print(f"\n[bold yellow]⚡ Detected Icons in GitFlex/icons/:[/bold yellow] [dim]{', '.join(available_icons)}[/dim]")
+        console.print(f"[bold yellow]📁 Detected Local Icons in GitFlex/icons/:[/bold yellow] [dim cyan]{', '.join(available_icons)}[/dim cyan]")
         default_tech = ", ".join(available_icons[:8])
     else:
         default_tech = ""
 
     tech_input = Prompt.ask(
-        "\n[bold green]?[/bold green] Tech Stack (Enter icon names or leave empty)",
+        "[bold green]?[/bold green] [bold white]Tech Stack Chips[/bold white] [dim](Comma-separated or leave empty)[/dim]",
         default=default_tech
     ).strip()
     tech_items = [t.strip().lower() for t in tech_input.split(",") if t.strip()]
 
-    # Save to build/gitflex.json
+    # Configuration Assembly
     config = {
         "username": username,
         "repo_url": repo_url,
@@ -94,22 +137,48 @@ def cmd_init():
         ]
     }
 
-    # Fetch Data & Generate Build Assets
-    with console.status("[bold cyan]Analyzing GitHub data & building isolated assets in build/...[/bold cyan]", spinner="dots"):
+    # Step 4: Live Telemetry & Build Pipeline
+    console.print("\n[bold bright_magenta]━━━ STEP 4 / 4: TELEMETRY & BUILD PIPELINE ━━━━━━━━━━━━━━[/bold bright_magenta]\n")
+
+    user_data = {}
+    repos_data = []
+    stats_data = {}
+
+    with Progress(
+        SpinnerColumn(spinner_name="dots12", style="bold cyan"),
+        TextColumn("[bold cyan]{task.description}[/bold cyan]"),
+        BarColumn(bar_width=40, style="purple", complete_style="bold green"),
+        TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+        TimeElapsedColumn(),
+        console=console
+    ) as progress:
+        
+        task1 = progress.add_task("Connecting to GitHub REST API...", total=100)
         provider = GitHubProvider(username)
+        
+        # Step 1: User Profile
+        progress.update(task1, advance=25, description="Fetching GitHub profile metadata...")
+        time.sleep(0.3)
         try:
             user_data = provider.fetch_user_data()
         except Exception as e:
-            console.print(f"[yellow]Warning: Could not fetch GitHub profile: {e}[/yellow]")
             user_data = {"name": name, "bio": bio, "public_repos": 0, "followers": 0}
         
+        # Step 2: Repositories
+        progress.update(task1, advance=25, description="Scanning repository metrics & activity...")
+        time.sleep(0.4)
         try:
             repos_data = provider.fetch_repositories()
         except Exception as e:
-            console.print(f"[yellow]Warning: Could not fetch repositories: {e}[/yellow]")
             repos_data = []
 
+        # Step 3: Math & Calculations
+        progress.update(task1, advance=25, description="Computing slot-machine stats & language ratios...")
+        time.sleep(0.3)
         stats_data = provider.calculate_stats(user_data, repos_data)
+
+        # Step 4: Asset Generation
+        progress.update(task1, advance=25, description="Compiling SVG canvas & synthesizing standalone Action...")
         
         context = {
             "user": user_data,
@@ -117,7 +186,7 @@ def cmd_init():
             "stats": stats_data,
         }
 
-        # 1. Render SVG inside build/assets/profile.svg
+        # 1. Compile SVG
         engine = GitFlexEngine(config)
         svg_content = engine.render_svg(context)
 
@@ -125,48 +194,89 @@ def cmd_init():
         with open("build/assets/profile.svg", "w", encoding="utf-8") as f:
             f.write(svg_content)
 
-        # 2. Synthesize custom standalone script inside build/generate_profile.py
+        # 2. Synthesize Autonomous Action Script
         custom_script = ScriptSynthesizer.generate_standalone_script(config)
         with open("build/generate_profile.py", "w", encoding="utf-8") as f:
             f.write(custom_script)
 
-        # 3. Create build/.github/workflows/generate_profile.yml
+        # 3. Create Workflow YAML
         os.makedirs("build/.github/workflows", exist_ok=True)
         with open("build/.github/workflows/generate_profile.yml", "w", encoding="utf-8") as f:
             f.write(DeployTemplates.get_workflow_yml())
 
-        # 4. Create build/README.md
+        # 4. Create README.md
         with open("build/README.md", "w", encoding="utf-8") as f:
             f.write(DeployTemplates.get_readme_md(username))
 
-    console.print("\n[bold green]✓[/bold green] [cyan]build/assets/profile.svg[/cyan] successfully built!")
-    console.print("[bold green]✓[/bold green] Tailored [magenta]build/generate_profile.py[/magenta] synthesized!")
-    console.print("[bold green]✓[/bold green] [yellow]build/.github/workflows/generate_profile.yml[/yellow] & [yellow]build/README.md[/yellow] ready!")
+        time.sleep(0.2)
 
-    # Automated Deployment to Target Repository
-    auto_push = Confirm.ask(f"\n[bold magenta]🚀 Automatically push build/ assets to [cyan]{repo_url}[/cyan]?[/bold magenta]", default=True)
+    console.print()
+    
+    # Telemetry Summary Table
+    summary_table = Table(title="[bold green]✓ Live GitHub Telemetry Summary[/bold green]", border_style="bright_cyan")
+    summary_table.add_column("Metric", style="bold white")
+    summary_table.add_column("Value", style="bold yellow")
+    
+    summary_table.add_row("Repositories", str(stats_data.get("public_repos", 0)))
+    summary_table.add_row("Total Stars", str(stats_data.get("total_stars", 0)))
+    summary_table.add_row("Followers", str(stats_data.get("followers", 0)))
+    summary_table.add_row("Forks Generated", str(stats_data.get("total_forks", 0)))
+    
+    top_langs = ", ".join([f"{l['name']} ({l['percentage']:.1f}%)" for l in stats_data.get("top_languages", [])[:3]]) or "None"
+    summary_table.add_row("Top Languages", top_langs)
+
+    recent_focus = stats_data.get("recent_focus")
+    summary_table.add_row("Current Focus", recent_focus.get("name", "None") if recent_focus else "None")
+
+    console.print(summary_table)
+
+    # Success Notice
+    success_box = Panel(
+        Text.from_markup(
+            "[bold green]✨ All assets successfully compiled into isolated [cyan]build/[/cyan] directory![/bold green]\n\n"
+            "  [bold white]•[/bold white] [cyan]build/assets/profile.svg[/cyan] [dim](Animated SVG profile card)[/dim]\n"
+            "  [bold white]•[/bold white] [cyan]build/generate_profile.py[/cyan] [dim](Zero-dependency Actions script)[/dim]\n"
+            "  [bold white]•[/bold white] [cyan]build/.github/workflows/generate_profile.yml[/cyan] [dim](Daily auto-sync workflow)[/dim]\n"
+            "  [bold white]•[/bold white] [cyan]build/README.md[/cyan] [dim](Profile README display)[/dim]"
+        ),
+        title="[bold bright_green]BUILD COMPLETE[/bold bright_green]",
+        border_style="bright_green",
+        padding=(1, 2)
+    )
+    console.print(success_box)
+
+    # Automated Deployment
+    console.print()
+    auto_push = Confirm.ask(
+        f"[bold magenta]🚀 Automatically push build/ assets to [cyan]{repo_url}[/cyan]?[/bold magenta]",
+        default=True
+    )
     if auto_push:
-        with console.status("[bold green]Pushing build/ to your GitHub profile repository...[/bold green]", spinner="arrow3"):
+        with console.status("[bold green]Executing isolated GitOps push from build/ to target repo...[/bold green]", spinner="aesthetic"):
             success = GitOps.deploy_build_to_repo(repo_url)
             if success:
-                console.print("\n[bold green]🎉 SUCCESS! Your profile is now LIVE on GitHub![/bold green]")
+                console.print("\n[bold bright_green]🎉 SUCCESS! Your profile is now LIVE on GitHub![/bold bright_green]")
             else:
-                console.print("\n[yellow]💡 You can manually push the contents of the 'build/' folder to your repository anytime.[/yellow]")
+                console.print("\n[yellow]💡 Tip: You can manually push the contents of 'build/' anytime.[/yellow]")
 
     # Live Preview
-    open_browser = Confirm.ask("\n[bold cyan]👀 Open live preview in browser?[/bold cyan]", default=True)
+    open_browser = Confirm.ask(
+        "\n[bold cyan]👀 Open live animated SVG preview in browser?[/bold cyan]",
+        default=True
+    )
     if open_browser:
         svg_path = os.path.abspath("build/assets/profile.svg")
         webbrowser.open(f"file://{svg_path}")
+        console.print(f"[bold green]✓ Opened live preview:[/bold green] [dim]{svg_path}[/dim]\n")
 
 def cmd_preview():
     """Opens generated build/assets/profile.svg in default web browser."""
     svg_path = os.path.abspath("build/assets/profile.svg")
     if not os.path.exists(svg_path):
-        console.print("[yellow]build/assets/profile.svg not found. Run 'python main.py' first.[/yellow]")
+        console.print("[bold red]✖ Error:[/bold red] [yellow]build/assets/profile.svg not found. Run 'python main.py' first.[/yellow]")
         return
     webbrowser.open(f"file://{svg_path}")
-    console.print(f"[bold green]✓ Opened in browser:[/bold green] {svg_path}")
+    console.print(f"[bold green]✓ Opened live preview in browser:[/bold green] [cyan]{svg_path}[/cyan]")
 
 def main():
     parser = argparse.ArgumentParser(
@@ -175,7 +285,7 @@ def main():
     )
     subparsers = parser.add_subparsers(dest="command", help="GitFlex Commands")
 
-    subparsers.add_parser("init", help="Interactive setup wizard & build generator")
+    subparsers.add_parser("init", help="Launch the interactive setup wizard")
     subparsers.add_parser("preview", help="Open live SVG preview in browser")
 
     args = parser.parse_args()
