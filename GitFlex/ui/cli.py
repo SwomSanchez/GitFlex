@@ -98,13 +98,16 @@ def cmd_init():
     # Step 3: Tech Stack
     console.print("\n[bold bright_magenta]━━━ STEP 3 / 4: TECH MATRIX & CUSTOM ICONS ━━━━━━━━━━━━━[/bold bright_magenta]\n")
     
-    # Categorized Catalog Grid
-    catalog_text = (
-        "  [bold cyan]Languages  :[/bold cyan] [dim white]python, javascript, typescript, csharp, go, rust, cpp, java, php[/dim white]\n"
-        "  [bold cyan]Frameworks :[/bold cyan] [dim white]react, vue, angular, nextjs, dotnet, nodejs, tailwind, playwright[/dim white]\n"
-        "  [bold cyan]DevOps/DB  :[/bold cyan] [dim white]docker, kubernetes, git, linux, postgresql, mongodb, redis, mysql, aws[/dim white]"
-    )
-    console.print(Panel(catalog_text, title="[bold bright_yellow]⚡ Instant Available Icons Catalog[/bold bright_yellow]", border_style="bright_magenta", padding=(0, 2)))
+    from GitFlex.services.icons import BUILTIN_ICON_CATALOG, list_local_icons
+    catalog_keys = sorted(list(set([v[0] for v in BUILTIN_ICON_CATALOG.values()])))
+    catalog_str = ", ".join(catalog_keys)
+    
+    console.print(Panel(
+        f"[dim white]{catalog_str}[/dim white]",
+        title="[bold bright_yellow]⚡ Supported Cloud & Devicon Catalog[/bold bright_yellow]",
+        border_style="bright_magenta",
+        padding=(0, 2)
+    ))
     
     available_icons = list_local_icons()
     if available_icons:
