@@ -96,18 +96,26 @@ def cmd_init():
     console.print(f"[dim]Selected theme:[/dim] [bold cyan]{chosen_theme_name}[/bold cyan]")
 
     # Step 3: Tech Stack
-    console.print("\n[bold bright_magenta]━━━ STEP 3 / 4: TECH MATRIX & CUSTOM ICONS ━━━━━━━━━━━━━[/bold bright_magenta]")
-    console.print("[dim]Popular: python, javascript, typescript, react, csharp, dotnet, nodejs, docker, git, go, rust[/dim]\n")
+    console.print("\n[bold bright_magenta]━━━ STEP 3 / 4: TECH MATRIX & CUSTOM ICONS ━━━━━━━━━━━━━[/bold bright_magenta]\n")
+    
+    # Categorized Catalog Grid
+    catalog_text = (
+        "  [bold cyan]Languages  :[/bold cyan] [dim white]python, javascript, typescript, csharp, go, rust, cpp, java, php[/dim white]\n"
+        "  [bold cyan]Frameworks :[/bold cyan] [dim white]react, vue, angular, nextjs, dotnet, nodejs, tailwind, playwright[/dim white]\n"
+        "  [bold cyan]DevOps/DB  :[/bold cyan] [dim white]docker, kubernetes, git, linux, postgresql, mongodb, redis, mysql, aws[/dim white]"
+    )
+    console.print(Panel(catalog_text, title="[bold bright_yellow]⚡ Instant Available Icons Catalog[/bold bright_yellow]", border_style="bright_magenta", padding=(0, 2)))
     
     available_icons = list_local_icons()
     if available_icons:
-        console.print(f"[bold yellow]📁 Detected Local Icons in GitFlex/icons/:[/bold yellow] [dim cyan]{', '.join(available_icons)}[/dim cyan]\n")
+        console.print(f"\n[bold yellow]📁 Detected Custom Icons in GitFlex/icons/:[/bold yellow] [bold green]{', '.join(available_icons)}[/bold green]")
         default_tech = ", ".join(available_icons[:8])
     else:
         default_tech = ""
 
+    console.print("[dim]Tip: Enter up to 8 technologies to showcase on your profile matrix.[/dim]")
     tech_input = Prompt.ask(
-        "[bold green]?[/bold green] [bold white]Tech Stack Chips[/bold white] [dim](Enter tech names comma-separated)[/dim]",
+        "\n[bold green]?[/bold green] [bold white]Tech Stack Chips[/bold white] [dim](comma-separated)[/dim]",
         default=default_tech
     ).strip()
     tech_items = [t.strip().lower() for t in tech_input.split(",") if t.strip()]
