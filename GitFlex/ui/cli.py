@@ -68,32 +68,24 @@ def cmd_init():
     ).strip()
 
     # Step 2: Theme Selection
-    console.print("\n[bold bright_magenta]━━━ STEP 2 / 4: THEME & COLOR ENGINE ━━━━━━━━━━━━━━━━━━━[/bold bright_magenta]")
+    console.print("\n[bold bright_magenta]━━━ STEP 2 / 4: THEME & PALETTE ENGINE ━━━━━━━━━━━━━━━━━━━[/bold bright_magenta]\n")
     themes = list_themes()
-    
-    table = Table(border_style="magenta", show_header=True, header_style="bold cyan")
-    table.add_column("#", style="bold yellow", width=4, justify="center")
-    table.add_column("Theme Name", style="bold white", width=22)
-    table.add_column("Description", style="dim white")
-    table.add_column("Aesthetics", style="bold green", width=18)
 
-    theme_vibes = {
-        "cyberpunk_nebula": "🟣 Neon Purple/Green",
-        "midnight_sapphire": "🔵 Oceanic Sapphire",
-        "sunset_crimson": "🔴 Amber Sunset",
-        "matrix_emerald": "🟢 Terminal Emerald"
-    }
+    theme_cards = [
+        {"num": "1", "name": "Cyberpunk Nebula", "badge": "[bold magenta]● NEON PURPLE / GREEN[/bold magenta]", "desc": "Deep space canvas with glowing purple nebula & neon emerald auroras"},
+        {"num": "2", "name": "Midnight Sapphire", "badge": "[bold cyan]● OCEANIC SAPPHIRE[/bold cyan]", "desc": "Deep oceanic blues with high-tech electric cyan highlights"},
+        {"num": "3", "name": "Sunset Crimson", "badge": "[bold red]● AMBER SUNSET[/bold red]", "desc": "Warm dusk gradients with vibrant pink & golden amber glow"},
+        {"num": "4", "name": "Matrix Emerald", "badge": "[bold green]● TERMINAL EMERALD[/bold green]", "desc": "Cyberpunk terminal black with electric neon emerald lasers"}
+    ]
 
-    for idx, t in enumerate(themes, 1):
-        vibe = theme_vibes.get(t["id"], "✨ Custom Neon")
-        table.add_row(str(idx), t["name"], t["description"], vibe)
-
-    console.print(table)
+    for item in theme_cards:
+        console.print(f"  [bold bright_yellow][{item['num']}][/bold bright_yellow] [bold white]{item['name']:<20}[/bold white] {item['badge']}")
+        console.print(f"      [dim]{item['desc']}[/dim]\n")
 
     theme_choice = Prompt.ask(
-        "\n[bold green]?[/bold green] [bold white]Select Theme Number[/bold white]",
+        "[bold green]?[/bold green] [bold white]Select Theme Number[/bold white]",
         default="1"
-    )
+    ).strip()
     try:
         chosen_theme = themes[int(theme_choice) - 1]["id"]
         chosen_theme_name = themes[int(theme_choice) - 1]["name"]
