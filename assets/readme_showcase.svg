@@ -1,0 +1,504 @@
+<svg width="900" height="1620" viewBox="0 0 900 1620" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Deep Space Multi-Layer Canvas Gradient -->
+    <linearGradient id="bgCanvas" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080612" />
+      <stop offset="30%" stop-color="#0f0b22" />
+      <stop offset="65%" stop-color="#0a0818" />
+      <stop offset="100%" stop-color="#040308" />
+    </linearGradient>
+
+    <!-- Pulsing Aurora Glow 1 (Purple Nebula) -->
+    <radialGradient id="glowPurple" cx="15%" cy="8%" r="45%">
+      <stop offset="0%" stop-color="#7f5af0" stop-opacity="0.3" />
+      <stop offset="50%" stop-color="#7f5af0" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#7f5af0" stop-opacity="0" />
+      <animate attributeName="cx" values="15%;35%;15%" dur="10s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="8%;22%;8%" dur="12s" repeatCount="indefinite" />
+    </radialGradient>
+
+    <!-- Pulsing Aurora Glow 2 (Neon Emerald Aurora) -->
+    <radialGradient id="glowEmerald" cx="85%" cy="35%" r="45%">
+      <stop offset="0%" stop-color="#2cb67d" stop-opacity="0.25" />
+      <stop offset="50%" stop-color="#2cb67d" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#2cb67d" stop-opacity="0" />
+      <animate attributeName="cx" values="85%;65%;85%" dur="12s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="35%;50%;35%" dur="14s" repeatCount="indefinite" />
+    </radialGradient>
+
+    <!-- Pulsing Aurora Glow 3 (Electric Cyan Glow) -->
+    <radialGradient id="glowCyan" cx="20%" cy="75%" r="45%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.22" />
+      <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.07" />
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0" />
+      <animate attributeName="cx" values="20%;40%;20%" dur="14s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="75%;60%;75%" dur="16s" repeatCount="indefinite" />
+    </radialGradient>
+
+    <!-- Pulsing Aurora Glow 4 (Center Cosmic Core) -->
+    <radialGradient id="glowCenter" cx="50%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="#ff5e97" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#ff5e97" stop-opacity="0" />
+      <animate attributeName="cx" values="50%;42%;58%;50%" dur="16s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="50%;58%;44%;50%" dur="18s" repeatCount="indefinite" />
+    </radialGradient>
+
+    <!-- Titanium Shimmer Title Gradient -->
+    <linearGradient id="titleShimmer" x1="-150%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="42%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#c4b5fd" />
+      <stop offset="58%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#ffffff" />
+      <animate attributeName="x1" values="-150%;150%" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="x2" values="0%;300%" dur="3s" repeatCount="indefinite" />
+    </linearGradient>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;display=swap');
+      * {
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      .title-hero {
+        fill: url(#titleShimmer);
+        font-size: 44px;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+      }
+      .title-sub {
+        fill: #94a3b8;
+        font-size: 16px;
+        font-weight: 400;
+      }
+      .section-label {
+        fill: #64748b;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.8px;
+      }
+      .card-title {
+        fill: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.1px;
+      }
+      .card-desc {
+        fill: #94a3b8;
+        font-size: 12px;
+        font-weight: 400;
+      }
+      .panel-frame {
+        fill: rgba(255, 255, 255, 0.02);
+        stroke: rgba(255, 255, 255, 0.07);
+        stroke-width: 1px;
+      }
+      .panel-frame-accent {
+        fill: rgba(127, 90, 240, 0.04);
+        stroke: rgba(127, 90, 240, 0.3);
+        stroke-width: 1px;
+      }
+      .code-mono {
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .repo-metric-val {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .repo-metric-label {
+        fill: #64748b;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      
+      @keyframes pulse-glow-anim {
+        0% { opacity: 0.7; }
+        50% { opacity: 1; }
+        100% { opacity: 0.7; }
+      }
+      @keyframes pulse-icon {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+      }
+      @keyframes radar-anim {
+        0% { r: 4px; opacity: 1; }
+        100% { r: 14px; opacity: 0; }
+      }
+      .pulse-glow {
+        animation: pulse-glow-anim 5s ease-in-out infinite;
+      }
+      .icon-pulse {
+        animation: pulse-icon 2.5s ease-in-out infinite;
+      }
+      .radar-dot {
+        animation: radar-anim 2s infinite ease-out;
+      }
+    </style>
+  </defs>
+
+  <!-- ======================================================== -->
+  <!-- ANIMATED BACKGROUND LAYERS (PULSING COSMIC AURORAS)      -->
+  <!-- ======================================================== -->
+  <rect width="900" height="1620" rx="24" fill="url(#bgCanvas)" />
+  <rect width="900" height="1620" rx="24" fill="url(#glowPurple)" class="pulse-glow" />
+  <rect width="900" height="1620" rx="24" fill="url(#glowEmerald)" class="pulse-glow" />
+  <rect width="900" height="1620" rx="24" fill="url(#glowCyan)" class="pulse-glow" />
+  <rect width="900" height="1620" rx="24" fill="url(#glowCenter)" class="pulse-glow" />
+  <rect width="896" height="1616" x="2" y="2" rx="23" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1.5" />
+
+  <!-- 36 Dynamic Animated Floating Space Particles with Drift -->
+  <g opacity="0.45">
+    <circle cx="90" cy="110" r="1.6" fill="#7f5af0"><animate attributeName="cy" values="110;140;110" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0.9;0.2" dur="5s" repeatCount="indefinite"/></circle>
+    <circle cx="240" cy="160" r="2.2" fill="#ffffff"><animate attributeName="cx" values="240;270;240" dur="10s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.1;0.9;0.1" dur="6s" repeatCount="indefinite"/></circle>
+    <circle cx="480" cy="90" r="1.4" fill="#2cb67d"><animate attributeName="cy" values="90;120;90" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/></circle>
+    <circle cx="810" cy="130" r="2.0" fill="#ff5e97"><animate attributeName="cx" values="810;780;810" dur="11s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0.8;0.2" dur="7s" repeatCount="indefinite"/></circle>
+    
+    <circle cx="140" cy="380" r="1.8" fill="#2cb67d"><animate attributeName="cy" values="380;415;380" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0.9;0.2" dur="6s" repeatCount="indefinite"/></circle>
+    <circle cx="840" cy="460" r="2.4" fill="#7f5af0"><animate attributeName="cy" values="460;430;460" dur="11s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.15;0.85;0.15" dur="5s" repeatCount="indefinite"/></circle>
+    <circle cx="360" cy="540" r="1.5" fill="#ffffff"><animate attributeName="cx" values="360;390;360" dur="8s" repeatCount="indefinite"/></circle>
+    <circle cx="720" cy="620" r="2.0" fill="#06b6d4"><animate attributeName="cy" values="620;655;620" dur="10s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.3;1;0.3" dur="7s" repeatCount="indefinite"/></circle>
+    
+    <circle cx="200" cy="790" r="1.6" fill="#7f5af0"><animate attributeName="cy" values="790;825;790" dur="12s" repeatCount="indefinite"/></circle>
+    <circle cx="780" cy="870" r="2.2" fill="#2cb67d"><animate attributeName="cx" values="780;750;780" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0.85;0.2" dur="6s" repeatCount="indefinite"/></circle>
+    <circle cx="450" cy="980" r="1.8" fill="#ff5e97"><animate attributeName="cy" values="980;1015;980" dur="10s" repeatCount="indefinite"/></circle>
+    <circle cx="120" cy="1120" r="2.0" fill="#06b6d4"><animate attributeName="cx" values="120;150;120" dur="11s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0.9;0.2" dur="5s" repeatCount="indefinite"/></circle>
+    
+    <circle cx="830" cy="1260" r="1.8" fill="#7f5af0"><animate attributeName="cy" values="1260;1230;1260" dur="8s" repeatCount="indefinite"/></circle>
+    <circle cx="310" cy="1380" r="2.2" fill="#2cb67d"><animate attributeName="cx" values="310;340;310" dur="10s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.1;0.8;0.1" dur="6s" repeatCount="indefinite"/></circle>
+    <circle cx="750" cy="1510" r="1.6" fill="#ffffff"><animate attributeName="cy" values="1510;1480;1510" dur="9s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- 1. HERO HEADER                                           -->
+  <!-- ======================================================== -->
+  <g transform="translate(50, 48)">
+    <text x="0" y="38" class="title-hero">GitFlex</text>
+    <text x="0" y="68" class="title-sub">Modular animated SVG profile and CV engine for developer showcases</text>
+
+    <!-- Corrected Clean Aligned Repository Telemetry Hub -->
+    <g transform="translate(0, 96)">
+      <!-- Metric 1: Stargazers Hub -->
+      <a href="https://github.com/SwomSanchez/GitFlex/stargazers" target="_blank">
+        <g transform="translate(0, 0)">
+          <rect width="188" height="64" rx="12" fill="rgba(127, 90, 240, 0.04)" stroke="rgba(127, 90, 240, 0.3)" stroke-width="1.2" />
+          <g transform="translate(20, 24)" stroke="#a78bfa" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="8 1 10.5 5.5 15.5 6 12 9.5 13 14.5 8 12 3 14.5 4 9.5 0.5 6 5.5 5.5 8 1"/>
+          </g>
+          <text x="46" y="27" class="repo-metric-label">STARGAZERS</text>
+          <text x="46" y="47" class="repo-metric-val" fill="#a78bfa">Star Repo</text>
+        </g>
+      </a>
+
+      <!-- Metric 2: Network Forks -->
+      <a href="https://github.com/SwomSanchez/GitFlex/network/members" target="_blank">
+        <g transform="translate(204, 0)">
+          <rect width="188" height="64" rx="12" fill="rgba(44, 182, 125, 0.04)" stroke="rgba(44, 182, 125, 0.3)" stroke-width="1.2" />
+          <g transform="translate(20, 24)" stroke="#38ef7d" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="4" cy="4" r="2.5"/>
+            <circle cx="12" cy="4" r="2.5"/>
+            <circle cx="8" cy="12" r="2.5"/>
+            <path d="M4 6.5v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-1M8 9.5v-1"/>
+          </g>
+          <text x="46" y="27" class="repo-metric-label">NETWORK</text>
+          <text x="46" y="47" class="repo-metric-val" fill="#38ef7d">Fork Members</text>
+        </g>
+      </a>
+
+      <!-- Metric 3: Open Issues -->
+      <a href="https://github.com/SwomSanchez/GitFlex/issues" target="_blank">
+        <g transform="translate(408, 0)">
+          <rect width="188" height="64" rx="12" fill="rgba(255, 94, 151, 0.04)" stroke="rgba(255, 94, 151, 0.3)" stroke-width="1.2" />
+          <g transform="translate(20, 24)" stroke="#ff5e97" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="7"/>
+            <line x1="8" y1="4.5" x2="8" y2="8.5"/>
+            <line x1="8" y1="11.5" x2="8.01" y2="11.5"/>
+          </g>
+          <text x="46" y="27" class="repo-metric-label">COMMUNITY</text>
+          <text x="46" y="47" class="repo-metric-val" fill="#ff75a0">Issues / PRs</text>
+        </g>
+      </a>
+
+      <!-- Metric 4: Open License -->
+      <a href="https://github.com/SwomSanchez/GitFlex/blob/main/LICENSE" target="_blank">
+        <g transform="translate(612, 0)">
+          <rect width="188" height="64" rx="12" fill="rgba(6, 182, 212, 0.04)" stroke="rgba(6, 182, 212, 0.3)" stroke-width="1.2" />
+          <g transform="translate(20, 24)" stroke="#22d3ee" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 1.5l6 2.5v5c0 4-3 7.5-6 8.5-3-1-6-4.5-6-8.5v-5l6-2.5z"/>
+          </g>
+          <text x="46" y="27" class="repo-metric-label">LICENSE</text>
+          <text x="46" y="47" class="repo-metric-val" fill="#22d3ee">MIT Open</text>
+        </g>
+      </a>
+    </g>
+  </g>
+
+  <!-- Divider -->
+  <line x1="50" y1="225" x2="850" y2="225" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+
+  <!-- ======================================================== -->
+  <!-- 2. ARCHITECTURAL CAPABILITIES (6 MATRIX CARDS)           -->
+  <!-- ======================================================== -->
+  <g transform="translate(50, 250)">
+    <text x="0" y="0" class="section-label">ENGINE SPECIFICATIONS</text>
+
+    <!-- Card 1: Keyframe Counters -->
+    <g transform="translate(0, 20)">
+      <rect width="385" height="92" rx="14" class="panel-frame" />
+      <g transform="translate(22, 24)" stroke="#a78bfa" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="22" x2="4" y2="10"><animate attributeName="y2" values="14;6;14" dur="2s" repeatCount="indefinite"/></line>
+        <line x1="11" y1="22" x2="11" y2="4"><animate attributeName="y2" values="4;14;4" dur="2.5s" repeatCount="indefinite"/></line>
+        <line x1="18" y1="22" x2="18" y2="12"><animate attributeName="y2" values="14;8;14" dur="2.2s" repeatCount="indefinite"/></line>
+        <line x1="1" y1="22" x2="21" y2="22" stroke-width="1.8"/>
+      </g>
+      <text x="58" y="36" class="card-title">Pure CSS Roll Counters</text>
+      <text x="58" y="58" class="card-desc">Slot-machine keyframe roll-in animations for repos,</text>
+      <text x="58" y="76" class="card-desc">stars, followers &amp; forks without client scripts.</text>
+    </g>
+
+    <!-- Card 2: Vector Shaders -->
+    <g transform="translate(415, 20)">
+      <rect width="385" height="92" rx="14" class="panel-frame" />
+      <g transform="translate(22, 24)" stroke="#38ef7d" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 6 2 11 6 16"><animate attributeName="transform" values="translate(0,0); translate(-2,0); translate(0,0)" dur="2s" repeatCount="indefinite"/></polyline>
+        <polyline points="16 6 20 11 16 16"><animate attributeName="transform" values="translate(0,0); translate(2,0); translate(0,0)" dur="2s" repeatCount="indefinite"/></polyline>
+        <line x1="13" y1="3" x2="9" y2="19" stroke-width="1.8"/>
+      </g>
+      <text x="58" y="36" class="card-title">Outfit Typography &amp; Defs</text>
+      <text x="58" y="58" class="card-desc">Vector layout with animated gradient shaders,</text>
+      <text x="58" y="76" class="card-desc">responsive coordinates, and floating particles.</text>
+    </g>
+
+    <!-- Card 3: Live Radar Focus -->
+    <g transform="translate(0, 126)">
+      <rect width="385" height="92" rx="14" class="panel-frame" />
+      <g transform="translate(22, 24)">
+        <circle cx="11" cy="11" r="4.5" fill="#38ef7d" />
+        <circle cx="11" cy="11" r="4.5" fill="none" stroke="#38ef7d" stroke-width="1.8" class="radar-dot" />
+        <circle cx="11" cy="11" r="10" fill="none" stroke="rgba(56, 239, 125, 0.35)" stroke-width="1" />
+      </g>
+      <text x="58" y="36" class="card-title">Telemetry Focus Radar</text>
+      <text x="58" y="58" class="card-desc">Pulsing radar indicator highlighting your latest</text>
+      <text x="58" y="76" class="card-desc">active repository with humanized activity time.</text>
+    </g>
+
+    <!-- Card 4: Autonomous Action Pipeline -->
+    <g transform="translate(415, 126)">
+      <rect width="385" height="92" rx="14" class="panel-frame" />
+      <g transform="translate(22, 24)" class="icon-pulse" stroke="#a78bfa" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 2v5h-5"/>
+        <path d="M18.8 14.5a8.5 8.5 0 1 1-.5-7.3l4.7-4.7"/>
+      </g>
+      <text x="58" y="36" class="card-title">Autonomous Action Pipeline</text>
+      <text x="58" y="58" class="card-desc">Scheduled daily updates directly on GitHub Actions.</text>
+      <text x="58" y="76" class="card-desc">Zero 3rd-party hosting proxies, never goes down.</text>
+    </g>
+
+    <!-- Card 5: Dynamic Base64 Matrix -->
+    <g transform="translate(0, 232)">
+      <rect width="385" height="92" rx="14" class="panel-frame" />
+      <g transform="translate(22, 24)" stroke="#22d3ee" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 2 2 6.5 11 11 20 6.5 11 2"/>
+        <polyline points="2 11 11 15.5 20 11"/>
+        <polyline points="2 15.5 11 20 20 15.5"/>
+      </g>
+      <text x="58" y="36" class="card-title">Dynamic Tech Matrix</text>
+      <text x="58" y="58" class="card-desc">Local icon scanner and Devicon cloud resolver with</text>
+      <text x="58" y="76" class="card-desc">instant Base64 encoding into a 4x2 chip grid.</text>
+    </g>
+
+    <!-- Card 6: Clean Isolated Build -->
+    <g transform="translate(415, 232)">
+      <rect width="385" height="92" rx="14" class="panel-frame" />
+      <g transform="translate(22, 24)" stroke="#fbbf24" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 14V7a1.5 1.5 0 0 0-.8-1.4l-6.5-3.5a1.5 1.5 0 0 0-1.4 0l-6.5 3.5A1.5 1.5 0 0 0 3 7v7a1.5 1.5 0 0 0 .8 1.4l6.5 3.5a1.5 1.5 0 0 0 1.4 0l6.5-3.5a1.5 1.5 0 0 0 .8-1.4z"/>
+        <polyline points="3.5 6.5 11 11 18.5 6.5"/>
+        <line x1="11" y1="19.5" x2="11" y2="11"/>
+      </g>
+      <text x="58" y="36" class="card-title">Isolated GitOps Workspace</text>
+      <text x="58" y="58" class="card-desc">Generated assets stay strictly inside build/ folder.</text>
+      <text x="58" y="76" class="card-desc">Zero clutter, automated target repository deployment.</text>
+    </g>
+  </g>
+
+  <!-- Divider -->
+  <line x1="50" y1="595" x2="850" y2="595" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+
+  <!-- ======================================================== -->
+  <!-- 3. INSTALLATION & SETUP WORKFLOW                         -->
+  <!-- ======================================================== -->
+  <g transform="translate(50, 620)">
+    <text x="0" y="0" class="section-label">QUICK START INSTRUCTIONS</text>
+
+    <!-- Terminal Window -->
+    <g transform="translate(0, 20)">
+      <rect width="800" height="175" rx="14" fill="#030206" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+      
+      <!-- Terminal Prompt Icon -->
+      <g transform="translate(24, 20)" stroke="#64748b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4 17 10 11 4 5"/>
+        <line x1="12" y1="19" x2="20" y2="19"/>
+      </g>
+      <text x="54" y="27" fill="#64748b" font-size="11px" font-weight="700" letter-spacing="1px">BASH TERMINAL</text>
+
+      <!-- Command 1 -->
+      <g transform="translate(24, 65)">
+        <text x="0" y="0" fill="#475569" class="code-mono"># 1. Clone repository</text>
+        <text x="0" y="22" fill="#ffffff" class="code-mono">git clone https://github.com/SwomSanchez/GitFlex.git</text>
+        <text x="470" y="22" fill="#a78bfa" class="code-mono">&amp;&amp; cd GitFlex</text>
+      </g>
+
+      <!-- Command 2 -->
+      <g transform="translate(24, 125)">
+        <text x="0" y="0" fill="#475569" class="code-mono"># 2. Install minimal CLI dependencies &amp; launch interactive setup studio</text>
+        <text x="0" y="22" fill="#2cb67d" class="code-mono">pip install -r requirements.txt</text>
+        <text x="290" y="22" fill="#ffffff" class="code-mono">&amp;&amp;</text>
+        <text x="320" y="22" fill="#38ef7d" font-weight="700" class="code-mono">python main.py</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Divider -->
+  <line x1="50" y1="845" x2="850" y2="855" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+
+  <!-- ======================================================== -->
+  <!-- 4. PALETTES & THEMES PRESETS                             -->
+  <!-- ======================================================== -->
+  <g transform="translate(50, 870)">
+    <text x="0" y="0" class="section-label">BUILT-IN COLOR PALETTES</text>
+
+    <g transform="translate(0, 20)">
+      <!-- Preset 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="188" height="85" rx="12" class="panel-frame" />
+        <circle cx="24" cy="24" r="6" fill="#7f5af0" class="icon-pulse"/>
+        <circle cx="40" cy="24" r="6" fill="#2cb67d" class="icon-pulse"/>
+        <text x="22" y="52" fill="#ffffff" font-size="13px" font-weight="700">Cyberpunk Nebula</text>
+        <text x="22" y="68" fill="#64748b" font-size="11px">#7f5af0 / #2cb67d</text>
+      </g>
+
+      <!-- Preset 2 -->
+      <g transform="translate(204, 0)">
+        <rect width="188" height="85" rx="12" class="panel-frame" />
+        <circle cx="24" cy="24" r="6" fill="#3b82f6" class="icon-pulse"/>
+        <circle cx="40" cy="24" r="6" fill="#06b6d4" class="icon-pulse"/>
+        <text x="22" y="52" fill="#ffffff" font-size="13px" font-weight="700">Midnight Sapphire</text>
+        <text x="22" y="68" fill="#64748b" font-size="11px">#3b82f6 / #06b6d4</text>
+      </g>
+
+      <!-- Preset 3 -->
+      <g transform="translate(408, 0)">
+        <rect width="188" height="85" rx="12" class="panel-frame" />
+        <circle cx="24" cy="24" r="6" fill="#f43f5e" class="icon-pulse"/>
+        <circle cx="40" cy="24" r="6" fill="#fbbf24" class="icon-pulse"/>
+        <text x="22" y="52" fill="#ffffff" font-size="13px" font-weight="700">Sunset Crimson</text>
+        <text x="22" y="68" fill="#64748b" font-size="11px">#f43f5e / #fbbf24</text>
+      </g>
+
+      <!-- Preset 4 -->
+      <g transform="translate(612, 0)">
+        <rect width="188" height="85" rx="12" class="panel-frame" />
+        <circle cx="24" cy="24" r="6" fill="#10b981" class="icon-pulse"/>
+        <circle cx="40" cy="24" r="6" fill="#22c55e" class="icon-pulse"/>
+        <text x="22" y="52" fill="#ffffff" font-size="13px" font-weight="700">Matrix Emerald</text>
+        <text x="22" y="68" fill="#64748b" font-size="11px">#10b981 / #22c55e</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Divider -->
+  <line x1="50" y1="1005" x2="850" y2="1005" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+
+  <!-- ======================================================== -->
+  <!-- 5. ARCHITECTURE & LIFECYCLE FLOW                         -->
+  <!-- ======================================================== -->
+  <g transform="translate(50, 1030)">
+    <text x="0" y="0" class="section-label">AUTONOMOUS LIFECYCLE PIPELINE</text>
+
+    <!-- Pipeline Container -->
+    <g transform="translate(0, 20)">
+      <rect width="800" height="160" rx="16" class="panel-frame-accent" />
+      
+      <!-- Stage 1 -->
+      <g transform="translate(30, 30)">
+        <g transform="translate(0, -6)" stroke="#a78bfa" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"/>
+          <line x1="12" y1="19" x2="20" y2="19"/>
+        </g>
+        <text x="28" y="10" fill="#a78bfa" font-size="11px" font-weight="800">STAGE 01</text>
+        <text x="0" y="42" fill="#ffffff" font-size="14px" font-weight="700">Developer Studio</text>
+        <text x="0" y="66" fill="#94a3b8" font-size="12px">CLI wizard configures</text>
+        <text x="0" y="84" fill="#94a3b8" font-size="12px">identity and palette</text>
+      </g>
+
+      <!-- Arrow 1 (Pulsing Stream) -->
+      <g stroke="#7f5af0" stroke-width="1.5">
+        <line x1="210" y1="80" x2="240" y2="80" stroke-dasharray="4 4"/>
+        <polygon points="245,80 237,76 237,84" fill="#7f5af0"/>
+      </g>
+
+      <!-- Stage 2 -->
+      <g transform="translate(270, 30)">
+        <g transform="translate(0, -6)" stroke="#2cb67d" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 14V7a1.5 1.5 0 0 0-.8-1.4l-6-3.2a1.5 1.5 0 0 0-1.4 0l-6 3.2A1.5 1.5 0 0 0 3 7v7a1.5 1.5 0 0 0 .8 1.4l6 3.2a1.5 1.5 0 0 0 1.4 0l6-3.2a1.5 1.5 0 0 0 .8-1.4z"/>
+        </g>
+        <text x="28" y="10" fill="#2cb67d" font-size="11px" font-weight="800">STAGE 02</text>
+        <text x="0" y="42" fill="#ffffff" font-size="14px" font-weight="700">Synthesizer &amp; Build</text>
+        <text x="0" y="66" fill="#94a3b8" font-size="12px">Isolates assets strictly</text>
+        <text x="0" y="84" fill="#94a3b8" font-size="12px">inside build/ folder</text>
+      </g>
+
+      <!-- Arrow 2 (Pulsing Stream) -->
+      <g stroke="#2cb67d" stroke-width="1.5">
+        <line x1="470" y1="80" x2="500" y2="80" stroke-dasharray="4 4"/>
+        <polygon points="505,80 497,76 497,84" fill="#2cb67d"/>
+      </g>
+
+      <!-- Stage 3 -->
+      <g transform="translate(530, 30)">
+        <g transform="translate(0, -6)" stroke="#06b6d4" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="10" cy="10" r="8"/>
+          <polyline points="10 5 10 10 13 12"/>
+        </g>
+        <text x="28" y="10" fill="#06b6d4" font-size="11px" font-weight="800">STAGE 03</text>
+        <text x="0" y="42" fill="#ffffff" font-size="14px" font-weight="700">Actions Automation</text>
+        <text x="0" y="66" fill="#94a3b8" font-size="12px">Runs scheduled daily</text>
+        <text x="0" y="84" fill="#94a3b8" font-size="12px">sync on GitHub cron</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Divider -->
+  <line x1="50" y1="1240" x2="850" y2="1240" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+
+  <!-- ======================================================== -->
+  <!-- 6. TECH ICONS DIRECTORY & SPEC                           -->
+  <!-- ======================================================== -->
+  <g transform="translate(50, 1265)">
+    <text x="0" y="0" class="section-label">CUSTOM ICONS INTEGRATION</text>
+
+    <g transform="translate(0, 20)">
+      <rect width="800" height="90" rx="14" class="panel-frame" />
+      <g transform="translate(22, 24)" stroke="#38ef7d" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="18" height="18" rx="3" ry="3"/>
+        <circle cx="7.5" cy="7.5" r="1.5"/>
+        <polyline points="19 13 14 9 4 19"/>
+      </g>
+      <text x="58" y="38" fill="#ffffff" font-size="14px" font-weight="700">Automatic Local Asset Detection (GitFlex/icons/)</text>
+      <text x="58" y="62" fill="#94a3b8" font-size="12px">Drop .svg, .png, or .jpg files into GitFlex/icons/. The engine converts them into Base64 data URIs automatically.</text>
+    </g>
+  </g>
+
+  <!-- ======================================================== -->
+  <!-- 7. FOOTER                                                -->
+  <!-- ======================================================== -->
+  <g transform="translate(50, 1395)">
+    <rect width="800" height="75" rx="14" fill="rgba(255, 255, 255, 0.01)" stroke="rgba(255, 255, 255, 0.04)" stroke-width="1" />
+    <text x="30" y="44" fill="#ffffff" font-size="14px" font-weight="700">GitFlex Engine</text>
+    <text x="135" y="44" fill="#64748b" font-size="13px">Engineered by SwomSanchez</text>
+    <text x="770" y="44" text-anchor="end" fill="#94a3b8" font-size="12px">Open Source • MIT Licensed</text>
+  </g>
+</svg>
