@@ -108,8 +108,9 @@ def get_as_base64(path_or_url: str, headers: dict = None) -> str:
             data_uri = f"data:{content_type};base64,{encoded}"
             _ICON_CACHE[path_or_url] = data_uri
             return data_uri
-        except Exception as e:
-            print(f"Warning: Could not fetch/encode remote icon ({path_or_url}): {e}")
+        except Exception:
+            # Fallback quietly without cluttering CLI output
+            return ""
 
     return path_or_url
 

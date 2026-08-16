@@ -33,7 +33,7 @@ class GitOps:
             return {}
 
     @staticmethod
-    def deploy_build_to_repo(target_repo_url: str, commit_msg: str = "🚀 Setup dynamic animated GitFlex profile") -> bool:
+    def deploy_build_to_repo(target_repo_url: str, username: str = "", commit_msg: str = "🚀 Setup dynamic animated GitFlex profile") -> bool:
         """
         Initializes git in build/ folder, adds remote, and pushes directly to user's profile repository.
         """
@@ -48,6 +48,18 @@ class GitOps:
             if not os.path.exists(git_dir):
                 subprocess.run(["git", "init", "-b", "main"], cwd=build_dir, check=True, capture_output=True)
             
+            # Inherit actual git user identity from current environment/user input
+            res_name = subprocess.run(["git", "config", "user.name"], capture_output=True, text=True)
+            res_email = subprocess.run(["git", "config", "user.email"], capture_output=True, text=True)
+            
+            actual_name = res_name.stdout.strip()
+            actual_email = res_email.stdout.strip()
+            
+            if actual_name:
+                subprocess.run(["git", "config", "user.name", actual_name], cwd=build_dir, check=True, capture_output=True)
+            if actual_email:
+                subprocess.run(["git", "config", "user.email", actual_email], cwd=build_dir, check=True, capture_output=True)
+
             # 2. Configure Remote
             remotes = subprocess.run(["git", "remote"], cwd=build_dir, capture_output=True, text=True).stdout
             if "origin" in remotes:

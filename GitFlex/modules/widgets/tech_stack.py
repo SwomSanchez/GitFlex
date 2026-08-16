@@ -32,11 +32,18 @@ class TechStackWidget(BaseWidget):
             escaped_tech_name = html.escape(tech_name)
             base64_icon = get_as_base64(icon_src) if icon_src else ""
 
+            if base64_icon:
+                icon_tag = f'<image x="12" y="8" width="24" height="24" href="{base64_icon}" />'
+                text_x = 46
+            else:
+                icon_tag = '<circle cx="24" cy="20" r="4" fill="#a78bfa" opacity="0.6" />'
+                text_x = 36
+
             icons_svg += f'''
         <g class="tech-chip" transform="translate({x}, {y})">
           <rect width="175" height="40" rx="12" fill="rgba(255, 255, 255, 0.03)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
-          <image x="12" y="8" width="24" height="24" href="{base64_icon}" />
-          <text x="46" y="24" class="tech-text" font-size="13px">{escaped_tech_name}</text>
+          {icon_tag}
+          <text x="{text_x}" y="24" class="tech-text" font-size="13px">{escaped_tech_name}</text>
         </g>'''
 
         return f'''  <!-- Bottom: Tech Stack -->

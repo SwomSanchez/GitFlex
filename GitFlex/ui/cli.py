@@ -247,7 +247,7 @@ def cmd_init():
     )
     if auto_push:
         with console.status("[bold green]Executing isolated GitOps push from build/ to target repo...[/bold green]", spinner="aesthetic"):
-            success = GitOps.deploy_build_to_repo(repo_url)
+            success = GitOps.deploy_build_to_repo(repo_url, username=username)
             if success:
                 console.print("\n[bold bright_green]🎉 SUCCESS! Your profile is now LIVE on GitHub![/bold bright_green]")
             else:
