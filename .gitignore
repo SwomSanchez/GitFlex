@@ -69,7 +69,5 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# GitFlex local artifacts (Optional)
-Swom-Sanchez/
-SwomSanchez-main/
-test_gitflex.py
+# Local artifacts
+web
