@@ -69,5 +69,15 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# Local artifacts
-web
+# Databases & Local state
+db.sqlite3
+*.sqlite3
+staticfiles/
+
+# Env & local configs
+.env
+.env.*
+!.env.example
+gitflex.json
+
+*web

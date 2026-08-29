@@ -17,10 +17,12 @@
 ### 🚀 Two Ways to Flex Your GitHub Profile
 
 #### 1. 🌐 No-Install Cloud Web Studio (Instant & Auto-Synced)
+
 Design your animated card in our live visual editor and get an auto-updating link:
 👉 **[Launch GitFlex Web Studio](https://gitflex.dev)**
 
 Add this to your GitHub `README.md`:
+
 ```markdown
 [![GitFlex Profile](https://api.gitflex.dev/card/YOUR_USERNAME.svg)](https://gitflex.dev)
 ```
@@ -28,6 +30,7 @@ Add this to your GitHub `README.md`:
 ---
 
 #### 2. 💻 Interactive Terminal CLI
+
 Run it locally with a single command to generate autonomous GitHub Action workflows:
 
 ```bash
@@ -52,15 +55,16 @@ python main.py
 
 ### 🎨 Themes Included
 
-| Theme | Preview Vibe |
-| :--- | :--- |
-| **Cyberpunk Nebula** | Deep space aesthetics with purple & neon green auroras |
-| **Midnight Sapphire** | Oceanic blues with electric cyan high-tech glow |
-| **Sunset Crimson** | Warm dusk gradients with vibrant pink & golden amber |
-| **Matrix Emerald** | Cyberpunk terminal black with neon emerald matrix |
+| Theme                 | Preview Vibe                                           |
+| :-------------------- | :----------------------------------------------------- |
+| **Cyberpunk Nebula**  | Deep space aesthetics with purple & neon green auroras |
+| **Midnight Sapphire** | Oceanic blues with electric cyan high-tech glow        |
+| **Sunset Crimson**    | Warm dusk gradients with vibrant pink & golden amber   |
+| **Matrix Emerald**    | Cyberpunk terminal black with neon emerald matrix      |
 
 ---
 
 ### 🤝 Contributing & Support
+
 Give a ⭐️ if this project helped you flex your GitHub profile!  
 Created with passion by **[SwomSanchez](https://github.com/SwomSanchez)**.
